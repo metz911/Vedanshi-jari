@@ -1,0 +1,37 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+}
+
+#invoice {
+  max-width: 300px; /* Thermal printer width */
+  margin: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+th, td {
+  padding: 4px 0;
+}
+
+h2, h3 {
+  text-align: center;
+}
+
+hr {
+  border: 1px dashed #000;
+}
+
+@media print {
+  button {
+    display: none;
+  }
+
+  body {
+    margin: 0;
+  }
+}

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Invoice | Vedanshi Jari</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../css/theme.css">
+  <link rel="stylesheet" href="../css/dark.css">
+
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg-body: #f3f4f6;
+      --bg-card: #ffffff;
+      --text-main: #1f2937;
+      --text-muted: #6b7280;
+      --border: #e5e7eb;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-body);
+      margin: 0;
+      height: 100vh;
+      overflow: hidden; /* Prevent body scroll, let content scroll */
+    }
+
+    .app {
+      display: flex;
+      height: 100%;
+    }
+
+    /* === SIDEBAR (Modernized) === */
+    .sidebar {
+      width: 260px;
+      background: #1e293b; /* Dark slate */
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .sidebar h2 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 2rem;
+      color: #fff;
+      letter-spacing: -0.025em;
+    }
+
+    .sidebar a {
+      color: #94a3b8;
+      text-decoration: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      display: block;
+    }
+
+    .sidebar a:hover, .sidebar a.active {
+      background: #334155;
+      color: #fff;
+    }
+
+    .sidebar #logoutBtn {
+      margin-top: auto;
+      color: #ef4444; /* Red for logout */
+    }
+
+    /* === MAIN CONTENT === */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .page-title { font-size: 1.5rem; font-weight: 700; color: var(--text-main); }
+    
+    /* === INVOICE EDITOR (The "Paper") === */
+    .invoice-paper {
+      background: var(--bg-card);
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      max-width: 1000px;
+      margin: 0 auto;
+      width: 100%;
+      border: 1px solid var(--border);
+    }
+
+    .invoice-header {
+      padding: 2rem;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    /* Form Fields Styling */
+    label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    select, input {
+      width: 100%;
+      padding: 0.625rem;
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      font-size: 0.95rem;
+      color: var(--text-main);
+      background: #f9fafb;
+      transition: border 0.2s;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: #fff;
+    }
+
+    /* Client Details Preview Box */
+    .client-details-box {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: #f8fafc;
+      border-radius: 0.5rem;
+      border: 1px dashed var(--border);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      min-height: 80px;
+    }
+
+    /* === ITEM ENTRY BAR === */
+    .item-entry-bar {
+      padding: 1.5rem 2rem;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 3fr 1fr 1fr 1fr auto; /* Item | Rate | Qty | Total | Button */
+      gap: 1rem;
+      align-items: end;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.625rem 1.25rem;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary:hover { background: var(--primary-hover); }
+    
+    .btn-save {
+      background: #059669; /* Green */
+      font-size: 1rem;
+      padding: 0.75rem 2rem;
+    }
+    .btn-save:hover { background: #047857; }
+
+    /* === TABLE === */
+    .table-container {
+      padding: 0 2rem 2rem 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th {
+      text-align: left;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 1rem 0;
+      border-bottom: 2px solid var(--border);
+    }
+
+    td {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-main);
+    }
+
+    td:last-child { text-align: right; } /* Amount alignment */
+    th:last-child { text-align: right; }
+
+    /* Delete Button in table */
+    .btn-delete {
+      color: #ef4444;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    /* === FOOTER & TOTALS === */
+    .invoice-footer {
+      display: flex;
+      justify-content: flex-end; /* Push totals to right */
+      padding: 2rem;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      border-radius: 0 0 0.75rem 0.75rem;
+    }
+
+    .totals-box {
+      width: 300px;
+      text-align: right;
+    }
+
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .grand-total {
+      border-top: 2px solid var(--border);
+      padding-top: 1rem;
+      margin-top: 1rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--text-main);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .actions-bar {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+    }
+
+  </style>
+</head>
+
+<body onload="protect()">
+
+<div class="app">
+
+  <div class="sidebar">
+    <h2>Vedanshi Jari</h2>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="clients.html">Clients</a>
+      <a href="inventory.html">Inventory</a>
+      <a class="active" href="billing.html">Billing</a>
+      <a href="reports.html">Reports</a>
+    </nav>
+    <a href="#" id="logoutBtn">Logout</a>
+  </div>
+
+  <div class="content">
+
+    <div class="top-bar">
+      <h2 class="page-title">Create New Invoice</h2>
+      <button id="themeBtn" style="background:none; border:1px solid #ddd; padding:5px 10px; border-radius:4px; cursor:pointer;">🌙 / ☀️</button>
+    </div>
+
+    <div class="invoice-paper">
+      
+      <div class="invoice-header">
+        
+        <div class="bill-to-section">
+          <label for="clientSelect">Bill To (Client)</label>
+          <select id="clientSelect">
+            <option value="" disabled selected>Select a client...</option>
+            </select>
+          
+          <div id="clientDetailsPreview" class="client-details-box">
+            Select a client to view details...
+          </div>
+        </div>
+
+        <div class="invoice-meta-section">
+          <div style="display:flex; gap: 1rem; margin-bottom: 1rem;">
+            <div style="flex:1">
+              <label for="invoiceDate">Date</label>
+              <input type="date" id="invoiceDate">
+            </div>
+            <div style="flex:1">
+              <label for="invoiceNo">Invoice #</label>
+              <input type="text" id="invoiceNo" placeholder="Auto-generated" disabled>
+            </div>
+          </div>
+          </div>
+      </div>
+
+      <div class="item-entry-bar">
+        <div>
+          <label for="itemSelect">Item Description</label>
+          <select id="itemSelect">
+            <option value="" disabled selected>Select item...</option>
+          </select>
+        </div>
+        
+        <div>
+          <label for="rateInput">Rate</label>
+          <input type="number" id="rateInput" placeholder="0.00">
+        </div>
+
+        <div>
+          <label for="qtyInput">Qty</label>
+          <input type="number" id="qtyInput" placeholder="1">
+        </div>
+
+        <div style="text-align: right;">
+          <label>Total</label>
+          <div id="lineTotalPreview" style="padding-top: 10px; font-weight:bold; color:var(--text-muted);">₹ 0.00</div>
+        </div>
+
+        <button id="addItemBtn" class="btn-primary">Add</button>
+      </div>
+
+      <div class="table-container">
+        <table width="100%">
+          <thead>
+            <tr>
+              <th style="width: 5%">#</th>
+              <th style="width: 45%">Item Description</th>
+              <th style="width: 15%">Rate</th>
+              <th style="width: 10%">Qty</th>
+              <th style="width: 20%; text-align:right">Amount</th>
+              <th style="width: 5%"></th> </tr>
+          </thead>
+          <tbody id="billTable">
+            </tbody>
+        </table>
+        
+        <div id="emptyState" style="text-align:center; padding: 2rem; color: #9ca3af; display:none;">
+          No items added yet.
+        </div>
+      </div>
+
+      <div class="invoice-footer">
+        <div style="flex: 1; padding-right: 4rem;">
+          <label for="notes">Notes / Terms</label>
+          <textarea id="notes" style="width:100%; height:80px; resize:none; border:1px solid #e5e7eb; padding:0.5rem;" placeholder="E.g. Payment due within 15 days..."></textarea>
+        </div>
+
+        <div class="totals-box">
+          <div class="total-row">
+            <span>Subtotal</span>
+            <span>₹ <span id="subtotal">0.00</span></span>
+          </div>
+          <div class="total-row">
+            <span>CGST (2.5%)</span>
+            <span>₹ <span id="cgst">0.00</span></span>
+          </div>
+          <div class="total-row">
+            <span>SGST (2.5%)</span>
+            <span>₹ <span id="sgst">0.00</span></span>
+          </div>
+          <div class="grand-total">
+            <span>Total</span>
+            <span>₹ <span id="total">0.00</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="actions-bar">
+      <button class="btn-primary" style="background: #64748b;">Cancel</button>
+      <button id="saveInvoiceBtn" class="btn-primary btn-save">Save & Print Invoice</button>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/auth.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/billing.js"></script>
+
+<script>
+  // Set default date to today
+  document.getElementById('invoiceDate').valueAsDate = new Date();
+
+  // (Optional) If you haven't updated billing.js yet, 
+  // you might need to ensure it reads 'rateInput' now.
+  
+  // Quick helper to show client details (Add this logic to your billing.js)
+  /*
+  const clientSelect = document.getElementById('clientSelect');
+  clientSelect.addEventListener('change', (e) => {
+     // Fetch client address from your clients array and update #clientDetailsPreview
+  });
+  */
+</script>
+
+</body>
+</html>

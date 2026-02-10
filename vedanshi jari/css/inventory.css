@@ -1,0 +1,41 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+nav a {
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+input {
+  margin: 5px 0;
+  padding: 6px;
+  width: 300px;
+  display: block;
+}
+
+button {
+  padding: 8px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+table {
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+
+#msg {
+  margin-top: 10px;
+  color: green;
+}

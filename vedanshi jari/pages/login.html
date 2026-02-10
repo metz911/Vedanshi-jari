@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login | Vedanshi Jari</title>
+  <link rel="stylesheet" href="../css/theme.css">
+</head>
+<body>
+
+<div style="
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#6d28d9,#22d3ee);
+">
+
+  <div class="card" style="width:360px;">
+    <h2 style="text-align:center;">VEDANSHI JARI</h2>
+
+    <input id="loginEmail" placeholder="Email" type="email">
+    <input id="loginPassword" placeholder="Password" type="password">
+
+    <button type="button" id="loginBtn" style="width:100%;">
+      Login
+    </button>
+
+    <p id="msg" style="text-align:center;"></p>
+  </div>
+
+</div>
+
+<!-- SCRIPTS (ORDER MATTERS) -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/login.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Print Invoice | Vedanshi Jari</title>
+  <link rel="stylesheet" href="../css/print.css">
+</head>
+<body>
+
+<div id="invoice">
+
+  <h2>VEDANSHI JARI</h2>
+  <p>Textile & Jari Trading</p>
+  <hr>
+
+  <p><b>Invoice No:</b> <span id="invoiceNo"></span></p>
+  <p><b>Date:</b> <span id="invoiceDate"></span></p>
+
+  <hr>
+
+  <p><b>Billed To:</b></p>
+  <p id="clientName"></p>
+
+  <table width="100%">
+    <thead>
+      <tr>
+        <th align="left">Item</th>
+        <th>Qty</th>
+        <th>Rate</th>
+        <th>Amt</th>
+      </tr>
+    </thead>
+    <tbody id="items"></tbody>
+  </table>
+
+  <hr>
+
+  <p>Subtotal: ₹ <span id="subtotal"></span></p>
+  <p>CGST (9%): ₹ <span id="cgst"></span></p>
+  <p>SGST (9%): ₹ <span id="sgst"></span></p>
+  <h3>Total: ₹ <span id="total"></span></h3>
+
+  <hr>
+
+  <p>Thank you for your business!</p>
+
+</div>
+
+<button onclick="window.print()">Print</button>
+
+<script src="../js/print.js"></script>
+</body>
+</html>

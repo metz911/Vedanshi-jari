@@ -1,0 +1,29 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+nav a {
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+select, input {
+  padding: 6px;
+  margin: 5px 0;
+}
+
+button {
+  padding: 8px 15px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+table {
+  margin-top: 15px;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+}

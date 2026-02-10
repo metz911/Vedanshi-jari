@@ -1,0 +1,25 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+nav a {
+  margin-right: 10px;
+  text-decoration: none;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 250px;
+  margin: 10px 0;
+}
+
+.card p {
+  margin: 0;
+  color: #555;
+}
+
+.card h3 {
+  margin: 5px 0 0;
+}
